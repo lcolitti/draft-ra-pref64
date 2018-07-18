@@ -3,6 +3,7 @@
 <!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
 <!ENTITY RFC4033 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4033.xml">
 <!ENTITY RFC4861 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4861.xml">
+<!ENTITY RFC6052 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6052.xml">
 <!ENTITY RFC6105 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6105.xml">
 <!ENTITY RFC6146 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6146.xml">
 <!ENTITY RFC6147 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6147.xml">
@@ -193,7 +194,7 @@
                (relative to the time the packet is received) over which
 	       this NAT64 prefix MAY be used is equal to the Router Lifetime value. A value of zero indicates that
 	       this NAT64 prefix MUST no longer be used.</c>
-       <c>Prefix Length</c> <c> 8-bit unsigned integer.  The number of leading bits in the Prefix that are valid. The value of this field MUST be between 30 and 96. A host MUST ignore the PREF64 Option with the Prefix Length value higher than 96 or lower than 30.</c>
+       <c>Prefix Length</c> <c> 8-bit unsigned integer.  The number of leading bits in the Prefix that are valid. The value of this field MUST be between 32 and 96 (<xref target="RFC6052"/>). A host MUST ignore the PREF64 Option with the Prefix Length value higher than 96 or lower than 32.</c>
        <c> Reserved</c> <c>This field is unused.  It MUST be initialized to
                      zero by the sender and MUST be ignored by the
 		     receiver.</c>
@@ -230,6 +231,7 @@
   <back>
     <references title="Normative References">
       &RFC2119;
+      &RFC6052;
     </references>
 
     <references title="Informative References">
