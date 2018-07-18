@@ -162,7 +162,44 @@
     </section>
 
     <section anchor="Format" title="Option format">
-      <t>TBD</t>
+	     <figure align="center" anchor="fig_Option"
+                              title="NAT64 Prefix Option Format">
+			      <artwork align="center"><![CDATA[
+
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+
+|     Type      |    Length     |L|Prefix Length|  Reserved     |
++_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+
+|                                                               |
++                            Prefix                             +
+|                                                               |
++_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+
+
+
+				      ]]></artwork>
+		      </figure>
+
+		      <t>Fields:</t>
+		      <texttable style="none">
+			      <ttcol></ttcol>
+			      <ttcol></ttcol>
+
+			      <c>Type</c> <c>8-bit identifier of the RDNSS option type as assigned by IANA: TBD</c>
+
+				      <c>Length</c> <c> 8-bit unsigned integer.  The length of the option
+               (including the Type and Length fields) is in units of 8 octets. The only valid value for this filed is 2. A host MUST ignore the NAT64 prefix option if the length field value is not set to 2.</c>
+	       <c>L</c>  <c>Lifetime Mutuplier Bit. When set to 1, it indicates that the maximum time in seconds
+               (relative to the time the packet is received) over which
+	       this NAT64 prefix MAY be used is equal to the Router Lifetime value. A value of zero indicates that
+	       this NAT64 prefix MUST no longer be used.</c>
+       <c>Prefix Length</c> <c> 8-bit unsigned integer.  The number of leading bits in the Prefix that are valid. The value of this field MUST be between 30 and 96. A host MUST ignore the PREF64 Option with the Prefix Length value higher than 96 or lower than 30.</c>
+       <c> Reserved</c> <c>This field is unused.  It MUST be initialized to
+                     zero by the sender and MUST be ignored by the
+		     receiver.</c>
+	       <c>Prefix</c>   <c>The highest 96-bits of the NAT64 prefix.</c>
+       </texttable>
+            
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
