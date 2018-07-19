@@ -157,9 +157,10 @@
     </section>
 
     <section title="Semantics">
-      <t>This option specifies exactly one NAT64 prefix for all IPv4 addresses. Observation of current deployments suggest that they use RFC7050, which also only supports one prefix.</t>
+	    <t>This option specifies exactly one NAT64 prefix for all IPv4 addresses. Observation of current deployments suggest that they use RFC7050, which also only supports one prefix.</t>
 
-      <t>The lifetime of this option is tied to the Router Lifetime.</t>
+	    <t> This option only supports the NAT64 prefix length of 96 bits. In the unlikely event of use cases for shorter prefixes (<xref target="RFC6052"/>) emerging another option could be created.</t>
+
     </section>
 
     <section anchor="Format" title="Option format">
@@ -169,13 +170,13 @@
 
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+
-|     Type      |    Length     |L|Prefix Length|  Reserved     |
-+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|     Type      |    Length     |           Lifetime            |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                                                               |
 +                            Prefix                             +
 |                                                               |
-+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 
 				      ]]></artwork>
@@ -190,14 +191,9 @@
 
 				      <c>Length</c> <c> 8-bit unsigned integer.  The length of the option
                (including the Type and Length fields) is in units of 8 octets. The only valid value for this filed is 2. A host MUST ignore the NAT64 prefix option if the length field value is not set to 2.</c>
-	       <c>L</c>  <c>Lifetime Mutuplier Bit. When set to 1, it indicates that the maximum time in seconds
-               (relative to the time the packet is received) over which
-	       this NAT64 prefix MAY be used is equal to the Router Lifetime value. A value of zero indicates that
-	       this NAT64 prefix MUST no longer be used.</c>
-       <c>Prefix Length</c> <c> 8-bit unsigned integer.  The number of leading bits in the Prefix that are valid. The value of this field MUST be between 32 and 96 (<xref target="RFC6052"/>). A host MUST ignore the PREF64 Option with the Prefix Length value higher than 96 or lower than 32.</c>
-       <c> Reserved</c> <c>This field is unused.  It MUST be initialized to
-                     zero by the sender and MUST be ignored by the
-		     receiver.</c>
+       <c>Lifetime</c>  <c>16-bit unsigned integer.  The maximum time in seconds over which this NAT64 prefix MAY be used. The value of Lifetime SHOULD by default be set to lesser of  3 x MaxRtrAdvInterval or 65535 seconds.
+               All one bits (0xffffffff) represents infinity.  A value of zero means that the prefix MUST no longer
+	       be used.</c>
 	       <c>Prefix</c>   <c>The highest 96-bits of the NAT64 prefix.</c>
        </texttable>
             
