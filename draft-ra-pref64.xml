@@ -165,8 +165,8 @@
 
     <section anchor="Format" title="Option format">
 	     <figure align="center" anchor="fig_Option"
-                              title="NAT64 Prefix Option Format">
-			      <artwork align="center"><![CDATA[
+                             title="NAT64 Prefix Option Format">
+ <artwork align="center"><![CDATA[
 
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -192,8 +192,7 @@
 				      <c>Length</c> <c> 8-bit unsigned integer.  The length of the option
                (including the Type and Length fields) is in units of 8 octets. The only valid value for this filed is 2. A host MUST ignore the NAT64 prefix option if the length field value is not set to 2.</c>
        <c>Lifetime</c>  <c>16-bit unsigned integer.  The maximum time in seconds over which this NAT64 prefix MAY be used. The value of Lifetime SHOULD by default be set to lesser of  3 x MaxRtrAdvInterval or 65535 seconds.
-               All one bits (0xffffffff) represents infinity.  A value of zero means that the prefix MUST no longer
-	       be used.</c>
+               A value of zero means that the prefix MUST no longer be used.</c>
 	       <c>Prefix</c>   <c>The highest 96-bits of the NAT64 prefix.</c>
        </texttable>
             
