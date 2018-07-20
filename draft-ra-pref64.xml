@@ -153,7 +153,7 @@
     <section title="Why include the NAT64 prefix in Router Advertisements">
       <t>Fate sharing. NAT64 requires a routing to be configured. IPv6 routing configuration requires receiving an IPv6 Router Advertisement <xref target="RFC4861"/>. Compared to currently-deployed NAT64 prefix discovery methods such as <xref target="RFC7050"/>, including the NAT64 prefix in the Router Advertisement minimizes the number of packets required to configure a host. This speeds up the process of connecting to a network that supports NAT64/DNS64, and simplifies host implementation by removing the possibility that the a can have an incomplete layer 3 configuration (e.g., IPv6 addresses and prefixes, but no NAT64 prefix).</t>
 
-      <t>Deployability. All IPv6 hosts and networks are required to support <xref target="RFC4861"/>. Other options such as <xref target="RFC7225"/>b require implementing other protocols.</t>
+      <t>Deployability. All IPv6 hosts and networks are required to support <xref target="RFC4861"/>. Other options such as <xref target="RFC7225"/> require implementing other protocols.</t>
     </section>
 
     <section title="Semantics">
