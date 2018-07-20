@@ -157,11 +157,13 @@
     </section>
 
     <section title="Semantics">
-	    <t>This option specifies exactly one NAT64 prefix for all IPv4 addresses. However the option might appear more than once in an RA. If the network operator would like nodes to utilize multiple Pref64::/n prefixes, then the routers need to be configured to include multiple instances on the PREF64 option in RAs. Hosts behaviour in regards to mapping of IPv4 address ranges to IPv6 prefixes SHOULD follow the recommendations given in the Section 5.1 of <xref target="RFC7050"/>. </t>
-	    <t>The proposed mechnism does not support specifying any rules for mapping specific IPv4 address ranges to separate Pref64::/n prefixes. Therefore hosts will be using all discovered prefixes to map all IPv4 addresses, which is identical to behavior specified in <xref target="RFC7050"/>.</t> 
+	    <t>This option specifies exactly one NAT64 prefix for all IPv4 destinations. If the network operator desires to route different parts of the IPv4 address space to different NAT64 devices, this can be accomplished by routing more specifics of the NAT64 prefix to those devices. For example, if the operator would like to route 10.0.0.0/8 through NAT64 device A and the rest of the IPv4 space through NAT64 device B, and the operator's NAT64 prefix is 2001:db8:a:b::/96, then the operator can route 2001:db8:a:b::a00:0/104 to NAT64 A and 2001:db8:a:b::/64 to NAT64 B.</t>
 
-	    <t> This option only supports the NAT64 prefix length of 96 bits. In the unlikely event of use cases for shorter prefixes (<xref target="RFC6052"/>) emerging another option could be created.</t>
+            <t>This option may appear more than once in a Router Advertisement. Host behaviour with regards to synthesizing IPv6 addresses from IPv4 addresses SHOULD follow the recommendations given in Section 5.1 of <xref target="RFC7050"/>, limited to the NAT64 prefixes that have non-zero lifetime.</t>
 
+            <t>In a network that provides both IPv4 and NAT64, it may be desirable for certain IPv4 addresses not to be translated. An example might be private address ranges that are local to the network and should not be reached through the NAT64. This type of configuration cannot be conveyed to hosts using this option, or through other NAT64 prefix provisioning mechanisms such as <xref target="RFC7050"/> or <xref target="RFC7225"/>. This problem does not apply in IPv6-only networks, because in such networks, the host does not have an IPv4 address and cannot reach any IPv4 destinations without the NAT64.</t>
+
+	    <t>For simplicity, this option only supports a NAT64 prefix length of 96 bits, as this is by the most common configuration used by hosts. Networks using one of the other prefix lengths supported in (<xref target="RFC6052"/>) can use other mechanisms such as <xref target="RFC7050"/> or <xref target="RFC7225"/>. If different prefix lengths become common, another RA option could be created to configure them.</t>
     </section>
 
     <section anchor="Format" title="Option format">
@@ -224,7 +226,7 @@
 
     <section anchor="Security" title="Security Considerations">
       <t>Because Router Advertisements are required in all IPv6 configuration scenarios, on IPv6-only networks, Router Advertisements must already be secured, e.g., by deploying RA guard <xref target="RFC6105"/>. Providing all configuration in Router Advertisements increases security by ensuring that no other protocols can be abused by malicious attackers to provide hosts with invalid configuration.</t>
-      <t>The security measures that must already be in place to ensure that Router Advertisements are only received from legitimate sources eliminate the problem of PREF64 validation described in section 3.1 of <xref target="RFC7050"/>.</t>
+      <t>The security measures that must already be in place to ensure that Router Advertisements are only received from legitimate sources eliminate the problem of NAT64 prefix validation described in section 3.1 of <xref target="RFC7050"/>.</t>
     </section>
   </middle>
 
