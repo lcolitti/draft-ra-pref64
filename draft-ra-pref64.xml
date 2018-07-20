@@ -193,18 +193,12 @@
 			      <c>Type</c> <c>8-bit identifier of the RDNSS option type as assigned by IANA: TBD</c>
 
 				      <c>Length</c> <c> 8-bit unsigned integer.  The length of the option
-               (including the Type and Length fields) is in units of 8 octets. The sender MUST set the Length to 2.  A host MUST ignore the NAT64 prefix option if the length field value is not equal to 2.</c>
+               (including the Type and Length fields) is in units of 8 octets. The sender MUST set the Length to 2.  A host MUST ignore the NAT64 prefix option if the length field value is 1. If the Length field value exceeds 2, the host MUST utilize the first 16 octets and ignore the rest of the option.</c>
        <c>Lifetime</c>  <c>16-bit unsigned integer.  The maximum time in seconds over which this NAT64 prefix MAY be used. The value of Lifetime SHOULD by default be set to lesser of  3 x MaxRtrAdvInterval or 65535 seconds.
                A value of zero means that the prefix MUST no longer be used.</c>
 	       <c>Prefix</c>   <c>The highest 96-bits of the NAT64 prefix.</c>
        </texttable>
             
-    </section>
-
-    <section anchor="ops" title="Operational Considerations for DNS64 Operator">
-	    <section anchor="Mapping" title="Mapping of IPv4 Address Ranges to IPv6 Prefixes">
-	    </section>
-
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
