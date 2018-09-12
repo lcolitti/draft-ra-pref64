@@ -151,7 +151,7 @@
     </section>
 
     <section title="Why include the NAT64 prefix in Router Advertisements">
-      <t>Fate sharing. NAT64 requires a routing to be configured. IPv6 routing configuration requires receiving an IPv6 Router Advertisement <xref target="RFC4861"/>. Compared to currently-deployed NAT64 prefix discovery methods such as <xref target="RFC7050"/>, including the NAT64 prefix in the Router Advertisement minimizes the number of packets required to configure a host. This speeds up the process of connecting to a network that supports NAT64/DNS64, and simplifies host implementation by removing the possibility that the a can have an incomplete layer 3 configuration (e.g., IPv6 addresses and prefixes, but no NAT64 prefix).</t>
+      <t>Fate sharing. NAT64 requires a routing to be configured. IPv6 routing configuration requires receiving an IPv6 Router Advertisement <xref target="RFC4861"/>. Compared to currently-deployed NAT64 prefix discovery methods such as <xref target="RFC7050"/>, including the NAT64 prefix in the Router Advertisement minimizes the number of packets required to configure a host. This speeds up the process of connecting to a network that supports NAT64/DNS64, and simplifies host implementation by removing the possibility that the host can have an incomplete layer 3 configuration (e.g., IPv6 addresses and prefixes, but no NAT64 prefix).</t>
 
       <t>Deployability. All IPv6 hosts and networks are required to support <xref target="RFC4861"/>. Other options such as <xref target="RFC7225"/> require implementing other protocols.</t>
     </section>
@@ -196,7 +196,7 @@
                (including the Type and Length fields) is in units of 8 octets. The sender MUST set the Length to 2.  A host MUST ignore the NAT64 prefix option if the length field value is 1. If the Length field value exceeds 2, the host MUST utilize the first 16 octets and ignore the rest of the option.</c>
        <c>Lifetime</c>  <c>16-bit unsigned integer.  The maximum time in seconds over which this NAT64 prefix MAY be used. The value of Lifetime SHOULD by default be set to lesser of  3 x MaxRtrAdvInterval or 65535 seconds.
                A value of zero means that the prefix MUST no longer be used.</c>
-	       <c>Prefix</c>   <c>The highest 96-bits of the NAT64 prefix.</c>
+	       <c>Prefix</c>   <c>The 96-bit NAT64 prefix.</c>
        </texttable>
             
     </section>
