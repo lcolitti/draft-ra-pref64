@@ -134,7 +134,7 @@
          keywords will be used for the search engine. -->
 
     <abstract>
-	    <t>This document specifies a Router Advertisement option that contains the /96 NAT64 prefix (Pref64).</t>
+	    <t>This document specifies a Router Advertisement option to communicate NAT64 prefixes to clients.</t>
     </abstract>
   </front>
 
@@ -151,10 +151,10 @@
       </section>
       <section title="Terminology">
 	      <t>
-		      Pref64:: an /96 IPv6 prefix used for IPv6 address synthesis <xref target="RFC6146"/>;
+		      Pref64: an IPv6 prefix used for IPv6 address synthesis <xref target="RFC6146"/>;
 	      </t>
 	      <t>
-		      RA    Router Advertisement, a message used by IPv6 routers to advertize their presence together
+		      RA    Router Advertisement, a message used by IPv6 routers to advertise their presence together
 		      with various link and Internet parameters (<xref target="RFC4861"/>);
 	      </t>
 	      <t>
@@ -168,18 +168,18 @@
     </section>
 
     <section title="Why include the NAT64 prefix in Router Advertisements">
-	    <t>Fate sharing. NAT64 requires a routing to be configured. IPv6 routing configuration requires receiving an IPv6 Router Advertisement <xref target="RFC4861"/>. Compared to currently-deployed NAT64 prefix discovery methods such as <xref target="RFC7050"/>, including the NAT64 prefix in the Router Advertisement minimizes the number of packets required to configure a host. This speeds up the process of connecting to a network that supports NAT64/DNS64, and simplifies host implementation by removing the possibility that the host can have an incomplete layer 3 configuration (e.g., IPv6 addresses and prefixes, but no NAT64 prefix).</t>
-      <t>Deployability. All IPv6 hosts and networks are required to support <xref target="RFC4861"/>. Other options such as <xref target="RFC7225"/> require implementing other protocols.</t>
+	    <t>Fate sharing: NAT64 requires a routing to be configured. IPv6 routing configuration requires receiving an IPv6 Router Advertisement <xref target="RFC4861"/>. Compared to currently-deployed NAT64 prefix discovery methods such as <xref target="RFC7050"/>, including the NAT64 prefix in the Router Advertisement minimizes the number of packets required to configure a host. This speeds up the process of connecting to a network that supports NAT64/DNS64, and simplifies host implementation by removing the possibility that the host can have an incomplete layer 3 configuration (e.g., IPv6 addresses and prefixes, but no NAT64 prefix).</t>
+      <t>Deployability: all IPv6 hosts and networks are required to support <xref target="RFC4861"/>. Other options such as <xref target="RFC7225"/> require implementing other protocols.</t>
     </section>
 
     <section title="Semantics">
-	    <t>This option specifies exactly one NAT64 prefix for all IPv4 destinations. If the network operator desires to route different parts of the IPv4 address space to different NAT64 devices, this can be accomplished by routing more specifics of the NAT64 prefix to those devices. For example, if the operator would like to route 10.0.0.0/8 through NAT64 device A and the rest of the IPv4 space through NAT64 device B, and the operator's NAT64 prefix is 2001:db8:a:b::/96, then the operator can route 2001:db8:a:b::a00:0/104 to NAT64 A and 2001:db8:a:b::/64 to NAT64 B.</t>
+	    <t>For simplicity, this option only supports a NAT64 prefix length of 96 bits, as this is by the most common configuration used by hosts. Networks using one of the other prefix lengths supported in (<xref target="RFC6052"/>) can use other mechanisms such as <xref target="RFC7050"/> or <xref target="RFC7225"/>. If different prefix lengths become common, another RA option can be created to configure them.</t>
 
             <t>This option may appear more than once in a Router Advertisement. Host behaviour with regards to synthesizing IPv6 addresses from IPv4 addresses SHOULD follow the recommendations given in Section 3 of <xref target="RFC7050"/>, limited to the NAT64 prefixes that have non-zero lifetime.</t>
 
-            <t>In a network that provides both IPv4 and NAT64, it may be desirable for certain IPv4 addresses not to be translated. An example might be private address ranges that are local to the network and should not be reached through the NAT64. This type of configuration cannot be conveyed to hosts using this option, or through other NAT64 prefix provisioning mechanisms such as <xref target="RFC7050"/> or <xref target="RFC7225"/>. This problem does not apply in IPv6-only networks, because in such networks, the host does not have an IPv4 address and cannot reach any IPv4 destinations without the NAT64.</t>
+	    <t>This option specifies exactly one NAT64 prefix for all IPv4 destinations. If the network operator desires to route different parts of the IPv4 address space to different NAT64 devices, this can be accomplished by routing more specifics of the NAT64 prefix to those devices. For example, if the operator would like to route 10.0.0.0/8 through NAT64 device A and the rest of the IPv4 space through NAT64 device B, and the operator's NAT64 prefix is 2001:db8:a:b::/96, then the operator can route 2001:db8:a:b::a00:0/104 to NAT64 A and 2001:db8:a:b::/64 to NAT64 B.</t>
 
-	    <t>For simplicity, this option only supports a NAT64 prefix length of 96 bits, as this is by the most common configuration used by hosts. Networks using one of the other prefix lengths supported in (<xref target="RFC6052"/>) can use other mechanisms such as <xref target="RFC7050"/> or <xref target="RFC7225"/>. If different prefix lengths become common, another RA option could be created to configure them.</t>
+            <t>In a network that provides both IPv4 and NAT64, it may be desirable for certain IPv4 addresses not to be translated. An example might be private address ranges that are local to the network and should not be reached through the NAT64. This type of configuration cannot be conveyed to hosts using this option, or through other NAT64 prefix provisioning mechanisms such as <xref target="RFC7050"/> or <xref target="RFC7225"/>. This problem does not apply in IPv6-only networks, because in such networks, the host does not have an IPv4 address and cannot reach any IPv4 destinations without the NAT64.</t>
     </section>
 
     <section anchor="Format" title="Option format">
