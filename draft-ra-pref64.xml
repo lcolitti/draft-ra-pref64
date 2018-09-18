@@ -228,19 +228,26 @@
 			    <t> the host receives multiple RAs with different Pref64 prefixes on one or multiple interfaces.</t>
 		    </list>
 	    </t>
-	    <t>
-		    Learning different Pref64 from different sources might cause connectivity issues, especially in the case of multihomed hosts, when the Pref64 learned from one interface but the actually traffic to the synthesized destination address is sent via another. Unfortunately network adminitrators are not nessesary able to prevent such situations (a network adminittrator enabling the Pref64 RA Option in the corporate wireless network has very lttle control over mobile phones which might send traffic to NAT64 destinations via mobile interface). It should be noted that this issue is not specific to the Pref64 RA option and, for example, is quite typical for DNS resolving on multihomed hosts (e.g. a host might resolve a destination name by using the corporate DNS server via the VPN tunnel but then send the traffic via its Internet-facing interface). 
-	    </t>
-	    <t>When multiple Pref64 were discovered via RA Pref64 Option (the Option presents more than once in a singe RA or multiple RAs were received), host behaviour with regards to synthesizing IPv6 addresses from IPv4 addresses SHOULD follow the recommendations given in Section 3 of <xref target="RFC7050"/>, limited to the NAT64 prefixes that have non-zero lifetime. However PvD-aware hosts SHOULD follow recommendations for Discovering Provisioning Domain information (<xref target="I-D.ietf-intarea-provisioning-domains"/>).</t>
+	    <t>When multiple Pref64 were discovered via RA Pref64 Option (the Option presents more than once in a singe RA or multiple RAs were received), host behaviour with regards to synthesizing IPv6 addresses from IPv4 addresses SHOULD follow the recommendations given in Section 3 of <xref target="RFC7050"/>, limited to the NAT64 prefixes that have non-zero lifetime..</t>
     <t>
 	    When different Pref64 are discovered by using multiple mechanisms, hosts SHOULD select one source of infromation only. The RECOMMENDED order is:
     <list style="symbols">
-		    <t>PCP-discovered prefixes (<xref target="RFC7225"/>);</t>
+		    <t>PCP-discovered prefixes (<xref target="RFC7225"/>), if supported;</t>
 		    <t>Pref64 discovered via RA Option;</t>
 		    <t>Pref64 resolving IPv4-only fully qualified domain name (<xref target="RFC7050"/>) </t>
 	    </list>
     </t>
+    <t>Note that if the network provides Pref64 both via this RA option and <xref target="RFC7225"/>, hosts that receive the Pref64 via RA option may choose to use it imediately before waiting for PCP to complete, and therefore some traffic may not reflect any more detailed configuration provided by PCP.</t>
     </section>
+
+    <section title="Multihoming">
+    <t>Like most IPv6 configuration information, the Pref64 option is specific to the network on which it is received. For example, a Pref64 option received on a particular wireless network may not be usable unless the traffic is also sourced on that network. Similarly, a host connected to a cellular network that povides NAT64 generally cannot use that NAT64 for destinations reached through a VPN tunnel that terminates outside that network.</t>
+
+    <t>Thus, correct use of this option on a multihomed host generally requires the host to be PVD-aware.</t>
+
+    <t>This issue is not specific to the Pref64 RA option and, for example, is quite typical for DNS resolving on multihomed hosts (e.g. a host might resolve a destination name by using the corporate DNS server via the VPN tunnel but then send the traffic via its Internet-facing interface).</t>
+    </section>
+
 
     <section anchor="IANA" title="IANA Considerations">
       <t>The IANA is requested to assign a new IPv6 Neighbor Discovery Option type for the PREF64 option defined in this document.</t>
