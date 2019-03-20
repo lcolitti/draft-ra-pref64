@@ -8,9 +8,10 @@
 <!ENTITY RFC6146 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6146.xml">
 <!ENTITY RFC6147 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6147.xml">
 <!ENTITY RFC6877 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6877.xml">
+<!ENTITY RFC7050 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7050.xml">
 <!ENTITY RFC7225 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7225.xml">
 <!ENTITY RFC7556 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7556.xml">
-<!ENTITY RFC7050 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7050.xml">
+<!ENTITY RFC7858 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7858.xml">
 <!ENTITY RFC8305 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8305.xml">
 ]>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
@@ -141,7 +142,7 @@
   <middle>
     <section title="Introduction">
 
-      <t>NAT64 <xref target="RFC6146"/> with DNS64 <xref target="RFC6147"/> is a widely-deployed mechanism to provide IPv4 access on IPv6-only networks. In order to support functions such as local validation of DNSSEC <xref target="RFC4033"/> responses, 464xlat <xref target="RFC6877"/>, and local IPv4 address synthesis <xref target="RFC8305"/>, the host must be aware of the NAT64 prefix in use by the network. This document specifies a Router Advertisement <xref target="RFC4861"/> option to communicate the NAT64 prefix to hosts.</t>
+      <t>NAT64 <xref target="RFC6146"/> with DNS64 <xref target="RFC6147"/> is a widely-deployed mechanism to provide IPv4 access on IPv6-only networks. In various scenarios, the host must be aware of the NAT64 prefix in use by the network. This document specifies a Router Advertisement <xref target="RFC4861"/> option to communicate the NAT64 prefix to hosts.</t>
 
       <section title="Requirements Language">
         <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -167,8 +168,21 @@
       </section>
     </section>
 
+    <section title="Use cases for communicating the NAT64 prefix to hosts">
+        <t>On networks employing NAT64, it is useful for hosts to know the NAT64 prefix for several reasons, including the following:
+            <list style="symbols">
+            <t>Local DNSSEC validation. As discussed in <xref target="RFC6147"/> section 2, the stub resolver in the host "will try to obtain (real) AAAA RRs, and in case they are not available, the DNS64 function will synthesize AAAA RRs for internal usage." This is required in order to use DNSSEC on a NAT64 network.</t>
+            <t>IPv4 address literals on an IPv6-only host. As described in <xref target="RFC8305"/> section 7.1, IPv6-only hosts connecting to IPv4 address literals can resolve the IPv4 literal to an IPv6 address.</t>
+            <t>464XLAT <xref target="RFC6877"/>. 464XLAT is widely deployed and requires that the host be aware of the NAT64 prefix.</t>
+            <t>Trusted DNS server. AAAA synthesis is required for the host to be able to use a DNS server not provided by the network (e.g., a DNS-over-TLS server with which the host has an existing trust relationship).</t>
+            <t>Networks with no DNS64 server. Hosts that support AAAA synthesis and that are aware of the NAT64 prefix in use do not need the network to perform the DNS64 function at all.</t>
+            </list>
+        </t>
+    </section>
+
     <section title="Why include the NAT64 prefix in Router Advertisements">
 	    <t>Fate sharing: NAT64 requires a routing to be configured. IPv6 routing configuration requires receiving an IPv6 Router Advertisement <xref target="RFC4861"/>. Compared to currently-deployed NAT64 prefix discovery methods such as <xref target="RFC7050"/>, including the NAT64 prefix in the Router Advertisement minimizes the number of packets required to configure a host. This speeds up the process of connecting to a network that supports NAT64/DNS64, and simplifies host implementation by removing the possibility that the host can have an incomplete layer 3 configuration (e.g., IPv6 addresses and prefixes, but no NAT64 prefix).</t>
+      <t>Updatability: it is possible to change the NAT64 prefix at any time, because when it changes, it is possible to notify hosts by sending a new Router Advertisement.</t>
       <t>Deployability: all IPv6 hosts and networks are required to support <xref target="RFC4861"/>. Other options such as <xref target="RFC7225"/> require implementing other protocols.</t>
     </section>
 
@@ -296,6 +310,7 @@
       &RFC7050;
       &RFC7225;
       &RFC7556;
+      &RFC7858;
       &RFC8305;
        <?rfc include="reference.I-D.ietf-intarea-provisioning-domains.xml"?>
     </references>
